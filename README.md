@@ -31,30 +31,6 @@ Replace `<NPI>` with the NPI number you want to look up. The script will fetch t
 
 By default, the script uses an SQLite database named `npi_lookup.db`. If you want to change the database name, update the `DATABASE_NAME` variable in the `npi_lookup.py` script.
 
-##project structure
-`npi-lookup/
-|-- alembic/
-|   |-- versions/
-|   |   |-- <migration_files>.py
-|   |-- env.py
-|   |-- README
-|   |-- script.py.mako
-|-- models/
-|   |-- __init__.py
-|   |-- base.py
-|   |-- npi.py
-|   |-- address.py
-|   |-- taxonomy.py
-|-- tests/
-|   |-- __init__.py
-|   |-- test_npi_lookup.py
-|-- .gitignore
-|-- alembic.ini
-|-- npi_lookup.py
-|-- README.md
-|-- requirements.txt`
-
-## To run unittest: 
 
 run: python tests/test_npi_lookup.py
 
