@@ -43,3 +43,19 @@ Ran 3 tests in 0.532s
 
 OK
 `
+
+##Extending data model:
+
+There is a branch called extending data model. This is in a pull request to hightlight the changes. in it the functions to get data and store it are modified. as well as the models.py file to add a telephone.
+if you wish to play with the automated data migration for a phone. make the pull request branch the active one and then run: `alembic upgrade head`
+
+you should see an output like: 
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade d952e8585942 -> 2dcc5211493f, Adding telephone column 2
+
+then you can go ahead and check the database to see the new column in the NPI table. 
+
+if you run the command to insert or update data for an NPI: `python npi_lookup.py 1134416456` you should see the phone number added to the row.
+
+Furthermore, unit test will fail in pull request branch until you run the migration command and insert new data that brings in a phone. 
