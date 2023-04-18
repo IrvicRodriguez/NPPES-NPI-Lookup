@@ -3,6 +3,9 @@ import requests
 import sqlite3
 import sys
 from typing import Optional
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models import Base, NPI, Address, Taxonomy
 
 #create database name
 DATABASE_NAME = "npi_lookup.db"
@@ -75,27 +78,29 @@ def get_npi_data(npi: int) -> Optional[dict]:
 
 def store_npi_data(data: dict) -> None:
     """def store_npi_data grabs the data variable and proceeds to insert data into tables"""
-    #connect to sqlite
-    with sqlite3.connect(DATABASE_NAME) as conn:
-        conn.execute(CREATE_NPI_TABLE_SQL)
-        conn.execute(CREATE_ADDRESSES_TABLE_SQL)
-        conn.execute(CREATE_TAXONOMIES_TABLE_SQL)
-        #run inserts
-        conn.execute(
-            "INSERT OR REPLACE INTO npi (npi, name, type, updated) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
-            (data["npi"], data["name"], data["type"])
-        )
+    engine = create_engine(f"sqlite:///{DATABASE_NAME}")
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-        conn.execute("DELETE FROM addresses WHERE npi = ?", (data["npi"],))
-        for address in data["addresses"]:
-            conn.execute("INSERT INTO addresses (npi, address) VALUES (?, ?)", (data["npi"], address))
+    npi = NPI(npi=data["npi"], name=data["name"], type=data["type"])
 
-        conn.execute("DELETE FROM taxonomies WHERE npi = ?", (data["npi"],))
-        for taxonomy in data["taxonomies"]:
-            conn.execute("INSERT INTO taxonomies (npi, taxonomy) VALUES (?, ?)", (data["npi"], taxonomy))
+    session.merge(npi)
+    session.commit()
 
-        conn.commit()
+    session.query(Address).filter(Address.npi == data["npi"]).delete()
+    for address in data["addresses"]:
+        npi_address = Address(npi=data["npi"], address=address)
+        session.add(npi_address)
+    session.commit()
 
+    session.query(Taxonomy).filter(Taxonomy.npi == data["npi"]).delete()
+    for taxonomy in data["taxonomies"]:
+        npi_taxonomy = Taxonomy(npi=data["npi"], taxonomy=taxonomy)
+        session.add(npi_taxonomy)
+    session.commit()
+
+    session.close()
 
 
 if __name__ == "__main__":
