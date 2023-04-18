@@ -54,9 +54,9 @@ npi-lookup/
 |-- README.md
 |-- requirements.txt
 
-## To run unittest 
+## To run unittest: 
 
-python tests/test_npi_lookup.py
+run: python tests/test_npi_lookup.py
 
 `Expected output should be:  python tests/test_npi_lookup.py
 
