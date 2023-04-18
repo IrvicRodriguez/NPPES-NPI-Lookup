@@ -54,8 +54,8 @@ INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
 INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
 INFO  [alembic.runtime.migration] Running upgrade d952e8585942 -> 2dcc5211493f, Adding telephone column 2
 
-then you can go ahead and check the database to see the new column in the NPI table. 
+Then you can go ahead and check the database to see the new column in the NPI table. 
 
-if you run the command to insert or update data for an NPI: `python npi_lookup.py 1134416456` you should see the phone number added to the row.
+If you run the command to insert or update data for an NPI: `python npi_lookup.py 1134416456` you should see the phone number added to the row.
 
 Furthermore, unit test will fail in pull request branch until you run the migration command and insert new data that brings in a phone. 
