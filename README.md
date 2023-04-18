@@ -31,7 +31,7 @@ Replace `<NPI>` with the NPI number you want to look up. The script will fetch t
 
 By default, the script uses an SQLite database named `npi_lookup.db`. If you want to change the database name, update the `DATABASE_NAME` variable in the `npi_lookup.py` script.
 
-## to run unit testing: 
+## To run unit testing: 
 run: python tests/test_npi_lookup.py
 
 `Expected output should be:  python tests/test_npi_lookup.py
