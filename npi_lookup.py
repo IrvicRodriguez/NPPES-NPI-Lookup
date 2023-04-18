@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS npi (
     npi INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
+    telephone TEXT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -66,13 +67,15 @@ def get_npi_data(npi: int) -> Optional[dict]:
     type = result["enumeration_type"]
     address_list = [addr["address_1"] + ", " + addr["city"] + ", " + addr["state"] + ", " + addr["postal_code"] for addr in addresses]
     taxonomy_list = [tax["desc"] for tax in taxonomies]
+    telephone = addresses[0]['telephone_number']
 
     return {
         "npi": npi,
         "name": name,
         "addresses": address_list,
         "type": "Individual" if type == "NPI-1" else "Organization",
-        "taxonomies": taxonomy_list
+        "taxonomies": taxonomy_list,
+        "telephone": telephone
     }
 
 
@@ -83,7 +86,7 @@ def store_npi_data(data: dict) -> None:
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    npi = NPI(npi=data["npi"], name=data["name"], type=data["type"])
+    npi = NPI(npi=data["npi"], name=data["name"], type=data["type"], telephone=data["telephone"])
 
     session.merge(npi)
     session.commit()
