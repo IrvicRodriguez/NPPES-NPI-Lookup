@@ -1,10 +1,13 @@
+#import needed modules
 import requests
 import sqlite3
 import sys
 from typing import Optional
 
+#create database name
 DATABASE_NAME = "npi_lookup.db"
 
+#create tables for data model
 CREATE_NPI_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS npi (
     npi INTEGER PRIMARY KEY,
@@ -37,24 +40,25 @@ CREATE TABLE IF NOT EXISTS taxonomies (
 
 
 def get_npi_data(npi: int) -> Optional[dict]:
+    """def get_npi_data grabs data from the NPPES API using version 2.1.
+    The function grabs the json response of an NPI and processes it to be inserted into the database."""
     url = f"https://npiregistry.cms.hhs.gov/api/?number={npi}&version=2.1"
     response = requests.get(url)
-
+    #code logic for errors
     if response.status_code != 200:
         print(f"Error: API request failed with status code {response.status_code}")
         return None
-
+    #pass json data to a variable
     data = response.json()
-
+    #if you dont get a result returned print error and return none.
     if data["result_count"] == 0:
         print(f"Error: NPI {npi} not found")
         return None
-
+    #grab the specific fields we want for now.
     result = data["results"][0]
     basic_info = result["basic"]
     addresses = result["addresses"]
     taxonomies = result["taxonomies"]
-
     name = basic_info["first_name"] + " " + basic_info["last_name"]
     type = result["enumeration_type"]
     address_list = [addr["address_1"] + ", " + addr["city"] + ", " + addr["state"] + ", " + addr["postal_code"] for addr in addresses]
@@ -70,11 +74,13 @@ def get_npi_data(npi: int) -> Optional[dict]:
 
 
 def store_npi_data(data: dict) -> None:
+    """def store_npi_data grabs the data variable and proceeds to insert data into tables"""
+    #connect to sqlite
     with sqlite3.connect(DATABASE_NAME) as conn:
         conn.execute(CREATE_NPI_TABLE_SQL)
         conn.execute(CREATE_ADDRESSES_TABLE_SQL)
         conn.execute(CREATE_TAXONOMIES_TABLE_SQL)
-
+        #run inserts
         conn.execute(
             "INSERT OR REPLACE INTO npi (npi, name, type, updated) VALUES (?, ?, ?, CURRENT_TIMESTAMP)",
             (data["npi"], data["name"], data["type"])
