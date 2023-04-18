@@ -7,7 +7,7 @@ from the [NPPES NPI Registry](https://npiregistry.cms.hhs.gov). The data is fetc
 
 1. Clone this repository:
 
-https://github.com/IrvicRodriguez/npi_lookup.git
+https://github.com/IrvicRodriguez/NPPES-NPI-Lookup
 
 2. Create and activate a virtual environment (optional but recommended): 
 
