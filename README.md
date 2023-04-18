@@ -46,7 +46,7 @@ OK
 
 ## Extending data model:
 
-There is a branch called extending data model. This is in a pull request to hightlight the changes. in it the functions to get data and store it are modified. as well as the models.py file to add a telephone.
+There is a branch called extending data model. This is in a pull request to hightlight the changes for the functions to get data and store it. Also, it shows the models.py file being changed to add a telephone column.
 if you wish to play with the automated data migration for a phone. make the pull request branch the active one and then run: `alembic upgrade head`
 
 you should see an output like: 
