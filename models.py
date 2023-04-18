@@ -17,6 +17,7 @@ class NPI(Base):
 
     addresses = relationship("Address", back_populates="npi_relation")
     taxonomies = relationship("Taxonomy", back_populates="npi_relation")
+    telephone = Column(String(15))
 
 class Address(Base):
     __tablename__ = 'addresses'

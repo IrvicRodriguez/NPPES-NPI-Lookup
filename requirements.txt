@@ -1,3 +1,4 @@
 requests==2.28.2
 alembic==1.10.3
 SQLAlchemy==2.0.9
+setuptools==67.6.1
