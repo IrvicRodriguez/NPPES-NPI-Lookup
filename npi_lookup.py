@@ -102,8 +102,7 @@ def store_npi_data(data: dict) -> None:
 
     session.close()
 
-
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 2:
         print(f"Usage: python {sys.argv[0]} <NPI>")
         sys.exit(1)
@@ -114,3 +113,6 @@ if __name__ == "__main__":
     if data is not None:
         store_npi_data(data)
         print("NPI data stored successfully")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+LICENSE
+README.md
+npi_lookup.py
+setup.py
+npi_lookup.egg-info/PKG-INFO
+npi_lookup.egg-info/SOURCES.txt
+npi_lookup.egg-info/dependency_links.txt
+npi_lookup.egg-info/entry_points.txt
+npi_lookup.egg-info/requires.txt
+npi_lookup.egg-info/top_level.txt

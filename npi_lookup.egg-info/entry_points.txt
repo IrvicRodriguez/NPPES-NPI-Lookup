@@ -1,0 +1,2 @@
+[console_scripts]
+npi-lookup = npi_lookup:main
