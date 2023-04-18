@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 To fetch and store NPI data for a specific NPI, run the following command:
 
-python npi_lookup.py <NPI>
+python npi_lookup.py `<NPI>`
 
 
 Replace `<NPI>` with the NPI number you want to look up. The script will fetch the provider's data from the NPPES API and store it in an SQLite database named `npi_lookup.db`.
