@@ -1,6 +1,6 @@
 #import needed modules
 import requests
-import sqlite3
+#import sqlite3
 import sys
 from typing import Optional
 from sqlalchemy import create_engine
